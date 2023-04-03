@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "dgSpecHash": "2jSn3TYY1xmSWb3hUNcc4jZ1ZWJyoc9lbl+SJYT8UJANA4IBw7VyNw3c1AzP3HJmT1YlYAuZp2IQs7FhFxAJ2Q==",
+  "success": true,
+  "projectFilePath": "D:\\Workspace\\C#\\project\\20120555\\MediaPlayer\\MediaPlayer.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\nxquan\\.nuget\\packages\\fody\\6.6.4\\fody.6.6.4.nupkg.sha512",
+    "C:\\Users\\nxquan\\.nuget\\packages\\propertychanged.fody\\4.1.0\\propertychanged.fody.4.1.0.nupkg.sha512"
+  ],
+  "logs": []
+}

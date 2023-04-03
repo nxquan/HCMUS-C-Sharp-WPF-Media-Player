@@ -1,0 +1,168 @@
+﻿<Window x:Class="MediaPlayer.Dashboard"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:MediaPlayer"
+        mc:Ignorable="d"
+        Title="Media Player" Height="550" Width="1000"
+        Closing="Window_Closing"
+        >
+    <Window.CommandBindings>
+        <CommandBinding Command="{x:Static local:Dashboard.playCommand}" CanExecute="playCommandBinding_CanExecute" Executed="playCommandBinding_Executed" />
+        <CommandBinding Command="{x:Static local:Dashboard.pauseCommand}" Executed="pauseCommandBinding_Executed" />
+        <CommandBinding Command="{x:Static local:Dashboard.enterCommand}"  Executed="enterCommandBinding_Executed" />
+        <CommandBinding Command="{x:Static local:Dashboard.spaceCommand}"  Executed="spaceCommandBinding_Executed" />
+        <CommandBinding Command="{x:Static local:Dashboard.previousCommand}" CanExecute="previousCommandBinding_CanExecute" Executed="previousCommandBinding_Executed" />
+        <CommandBinding Command="{x:Static local:Dashboard.nextCommand}" CanExecute="nextCommandBinding_CanExecute" Executed="nextCommandBinding_Executed" />
+    </Window.CommandBindings>
+
+    <StackPanel>
+        <DockPanel LastChildFill="True">
+            <StackPanel DockPanel.Dock="Left" Orientation="Vertical" Margin="0 6 0 0">
+                <StackPanel Orientation="Horizontal">
+                    <Button Width="120" Padding="2" Name="addFile" Click="addFile_Click">
+                        <Button.Content>
+                            <StackPanel Orientation="Horizontal">
+                                <Image Source="./Icon/add-file.png" Width="25" Height="25" />
+                                <Label Content="Browser files" />
+                            </StackPanel>
+                        </Button.Content>
+                    </Button>
+                    <Button Width="120" Padding="2" Name="loadPlaylist" Click="loadPlaylist_Click" Margin="10 0 0 0">
+                        <Button.Content>
+                            <StackPanel Orientation="Horizontal">
+                                <Image Source="./Icon/upload.png" Width="25" Height="25" />
+                                <Label Content="Load playlist" />
+                            </StackPanel>
+                        </Button.Content>
+                    </Button>
+
+                    <Button Width="120" Padding="2" Name="savePlaylist" Click="savePlaylist_Click" Margin="10 0 0 0"
+                            >
+                        <Button.Content>
+                            <StackPanel Orientation="Horizontal">
+                                <Image Source="./Icon/save.png" Width="25" Height="25" />
+                                <Label Content="Save playlist" />
+                            </StackPanel>
+                        </Button.Content>
+                    </Button>
+                </StackPanel>
+                <Label Content="My Playlists" FontWeight="Bold" />
+                <ListView Margin="10" Name="lvPlaylist" ScrollViewer.VerticalScrollBarVisibility="Visible"
+                          ScrollViewer.CanContentScroll="True"
+                          Height="250"
+                          SelectionChanged="lvPlaylist_SelectionChanged"
+                          >
+                    <ListView.Resources>
+                        <ContextMenu x:Key="playlistMenuContext">
+                            <MenuItem Header="Remove" Name="removeBtn" Click="removeBtn_Click" />
+                            <MenuItem Header="Remove all" Name="removeAllBtn" Click="removeAllBtn_Click" />
+                        </ContextMenu>
+                    </ListView.Resources>
+                    
+                    <ListView.ItemContainerStyle>
+                        <Style TargetType="{x:Type ListViewItem}">
+                            <Setter Property="BorderBrush" Value="LightGray" />
+                            <Setter Property="BorderThickness" Value="0,0,0,0.5" />
+                            <Setter Property="Padding" Value="4 8 4 8" />
+                            <Setter Property="ContextMenu" Value="{StaticResource playlistMenuContext}" />
+                        </Style>
+                    </ListView.ItemContainerStyle>
+                    <ListView.View>
+                        <GridView>
+                            <GridViewColumn Header="#" Width="40" DisplayMemberBinding="{Binding Id}" />
+                            <GridViewColumn Header="Title" Width="260" DisplayMemberBinding="{Binding Title}" />
+                            <GridViewColumn Header="Author" Width="100" DisplayMemberBinding="{Binding Author}" />
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+
+                <Label Content="Recent playlists" FontWeight="Bold" />
+                <ListView Margin="10 0 10 0" Name="lvRecentPlaylist" ScrollViewer.VerticalScrollBarVisibility="Visible"
+                          ScrollViewer.CanContentScroll="True"
+                          Height="150"
+                          SelectionChanged="lvRecentPlaylist_SelectionChanged"
+                          >
+                    <ListView.ItemContainerStyle>
+                        <Style TargetType="{x:Type ListViewItem}">
+                            <Setter Property="BorderBrush" Value="LightGray" />
+                            <Setter Property="BorderThickness" Value="0,0,0,0.5" />
+                            <Setter Property="Padding" Value="4 8 4 8" />
+                        </Style>
+                    </ListView.ItemContainerStyle>
+                    <ListView.View>
+                        <GridView>
+                            <GridViewColumn Header="#" Width="40" DisplayMemberBinding="{Binding Id}" />
+                            <GridViewColumn Header="Title" Width="180" DisplayMemberBinding="{Binding Title}" />
+                            <GridViewColumn Header="Author" Width="260" DisplayMemberBinding="{Binding Author}" />
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+            </StackPanel>
+            <StackPanel DockPanel.Dock="Right" Orientation="Vertical" Margin="0 10 0 0">
+                <MediaElement Width="520" Height="300" Name="player"
+                              LoadedBehavior="Manual"
+                              MediaOpened="player_MediaOpened"
+                              MediaEnded="player_MediaEnded"
+                              Visibility="Visible"
+                              ></MediaElement>
+
+                <Image Name="thumbnail" Width="200" Height="200" Source="./icon/mp3.png" Margin="0 50 0 50" Visibility="Collapsed" />
+                <TextBlock Name="currentMediaName" FontWeight="Bold" d:Text="123" TextAlignment="Center" Margin="0 8 0 8" /> 
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                    <Button Background="Transparent" BorderBrush="Transparent" Padding="2"
+                            Cursor="Hand"
+                            Name="shuffeBtn"
+                            Click="shuffeBtn_Click"
+                            >
+                        <Button.Content>
+                            <Image Name="shuffleImage" Source="./icon/shuffle.png" Width="30" Height="30"  />
+                        </Button.Content>
+                    </Button>
+                    <Button Background="Transparent" BorderBrush="Transparent" Padding="2" Margin="8 0 0 0"
+                            Cursor="Hand"
+                            Name="previousBtn"
+                            Click="previousBtn_Click"
+                            >
+                        <Button.Content>
+                            <Image Source="./icon/previous.png" Width="30" Height="30" />
+                        </Button.Content>
+                    </Button>
+                    <Button Background="Transparent" BorderBrush="Transparent" Padding="2" Margin="8 0 0 0"
+                            Cursor="Hand"
+                            Name="mainControlBtn"
+                            Click="mainControlBtn_Click"
+                            >
+                        <Button.Content>
+                            <Image Name="mainControlImage" Source="./icon/play.png" Width="30" Height="30" />
+                        </Button.Content>
+                    </Button>
+                    <Button Background="Transparent" BorderBrush="Transparent" Padding="2" Margin="8 0 0 0"
+                            Cursor="Hand"
+                            Name="nextBtn"
+                            Click="nextBtn_Click"
+                            >
+                        <Button.Content>
+                            <Image Source="./icon/next.png" Width="30" Height="30" />
+                        </Button.Content>
+                    </Button>
+                    <Button Background="Transparent" BorderBrush="Transparent" Padding="2" Margin="8 0 0 0"
+                            Cursor="Hand"
+                            Name="repeatBtn"
+                            Click="repeatBtn_Click"
+                            >
+                        <Button.Content>
+                            <Image Name="repeatImage" Source="./icon/repeat.png" Width="30" Height="30" />
+                        </Button.Content>
+                    </Button>
+                </StackPanel>
+                <DockPanel Width="420">
+                    <TextBlock Name="currentPos" Text="00:00:00"  DockPanel.Dock="Left" Margin="0 0 12 0"/>
+                    <Slider Name="progressBar" Width="300" Thumb.DragDelta="progressBar_DragDelta" />
+                    <TextBlock Name="currentLength"  Text="00:00:00"   DockPanel.Dock="Right" Margin="12 0 0 0"/>
+                </DockPanel>
+            </StackPanel>
+        </DockPanel>
+    </StackPanel>
+</Window>
