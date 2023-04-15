@@ -5,7 +5,7 @@
 ***MSSV*: 20120555**
 
 ***Email*: 20120555@student.hcmus.edu.vn**
-
+**Original Description: **https://www.notion.so/tdquang7/Project-Media-Player-22231c05f47f4e1592c72dbb2b574382
 # II. Đồ án: Media Player
 ***2.1. Hoàn thành:*** 
 
